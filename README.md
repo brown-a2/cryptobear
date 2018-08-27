@@ -1,5 +1,5 @@
 # cryptobear
-Basic shell script that encrypts/ decrypts batch files 
+Basic shell script that encrypts/ decrypts batch files  
 AES 256 CBC encryption
 
 ## Requirements:
