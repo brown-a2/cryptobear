@@ -3,9 +3,9 @@ Basic shell script that encrypts/ decrypts batch files
 
 ## Requirements:
 
-Mac OS
-Openssl installed on your machine
-zip installed
+Mac OS  
+Openssl installed on your machine  
+zip installed  
 Knowledge with command line  
 
 ## Instructions
