@@ -33,10 +33,10 @@ function msg {
 }
 
 # Common vars
-hash='your password here'
-basedir="path to folder you want to use for encryption"
-encrypted_file_dir="${basedir}your decrypt folder path here"
-decrypted_file_dir="${basedir}your encrypt folder path here"
+hash=''YOUR PASSWORD HERE''
+basedir="crypt/"
+encrypted_file_dir="${basedir}decrypt/"
+decrypted_file_dir="${basedir}encrypt/"
 query="Encrypt or Decrypt? (e/d) "
 
 # Env params
@@ -88,6 +88,12 @@ elif [[ "$requested_action" = "e" ]]; then
 function encrypt {
 
   cd $decrypted_file_dir
+
+  # We don't like spaces. Turn spaces to dashes
+  for item in *
+  do
+    mv "$item" "${item// /-}";
+  done
 
   for file in *
   do
