@@ -48,7 +48,7 @@ msg $GREEN$decrypted_file_dir
 if [ -z ${hash+x} ]; then
   msg $YELLOW"No hash available to encrypt/decrypt, pls add.";
 else
-  msg $GREEN"Hash loaded.";
+  msg $GREEN"Hash loaded."
 fi
 msg $GREEN"Using OPENSSL AES 256 CBC encryption"
 echo ""
@@ -64,23 +64,23 @@ function decrypt {
 
   cd $encrypted_file_dir
 
-  for file in *
-  do
-    msg $GREEN"Decrypting file ${file}:"
-    openssl aes-256-cbc -d -in $file -out ${file}.zip -pass pass:$hash
-    echo ${file}.zip
-    msg $GREEN"Unzipping file into folder:"
-    rm $file
-    unzip ${file}.zip
-    msg $GREEN"Removing .zip file"
-    rm ${file}.zip
-  done
+    for file in *
+    do
+      msg $GREEN"Decrypting file ${file}:"
+      openssl aes-256-cbc -d -in $file -out ${file}.zip -pass pass:$hash
+      echo ${file}.zip
+      msg $GREEN"Unzipping file into folder:"
+      rm $file
+      unzip ${file}.zip
+      msg $GREEN"Removing .zip file"
+      rm ${file}.zip
+    done
 
   msg $GREEN"Done."
 
 }
 
-decrypt;
+decrypt
 
 elif [[ "$requested_action" = "e" ]]; then
 
@@ -89,32 +89,39 @@ function encrypt {
 
   cd $decrypted_file_dir
 
-  # We don't like spaces. Turn spaces to dashes
-  for item in *
+  # remove file spaces with dashes
+  for file in *
   do
-    mv "$item" "${item// /-}";
+    mv "$file" "${file// /-}"
+  done
+
+  # lowercase all file characters
+  for file in *
+  do
+    lc=`echo "$file" | tr '[:upper:]' '[:lower:]'`
+    mv -f $file $lc
   done
 
   for file in *
-  do
-    msg $GREEN"Compressing ${file} into .zip:"
-    zip -r ${file}.zip $file
-    rm -rf $file
-    msg $GREEN"Encrypting file ${file}: "
-    openssl aes-256-cbc -in ${file}.zip -out ${file} -pass pass:$hash
-    msg $GREEN"Removed .zip"
-    rm ${file}.zip
-  done
+    do
+      msg $GREEN"Compressing ${file} into .zip:"
+      zip -r ${file}.zip $file
+      rm -rf $file
+      msg $GREEN"Encrypting file ${file}: "
+      openssl aes-256-cbc -in ${file}.zip -out ${file} -pass pass:$hash
+      msg $GREEN"Removed .zip"
+      rm ${file}.zip
+    done
 
   msg $GREEN"Done."
 
 }
 
-encrypt;
+encrypt
 
 else
   msg $YELLOW"Oops, seems like a typo? Pls type either 'encrypt' or 'decrypt' or crypto bear will eat you."
-  echo "Bye!";
+  echo "Bye!"
 fi
 
 exit 0
